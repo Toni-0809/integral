@@ -3,7 +3,7 @@
 class Program
 {
     // Интегрирования методом прямоугольников
-    public static double Integrate(Func<double, double> func, double a, double b, double tolerance)
+    public static double Integrate(Func<double, double> func, double a, double b, double limit)
     {
         int n = 1; // Начальное количество прямоугольников
         double previousIntegral = 0; // Предыдущее значение интеграла
@@ -21,11 +21,11 @@ class Program
 
                 // Вычисляем значение функции в левой точке каждого подинтервала
                 double x = a + i * h;
-                currentIntegral += func(x); // Прибавляем
+                currentIntegral += func(x)*h; // Прибавляем
             }
 
             //Проверяем достижение заданной точности
-            if (Math.Abs(currentIntegral - previousIntegral) < tolerance)
+            if (n > 1 && Math.Abs(currentIntegral - previousIntegral) < limit)
             {
                 break; // Если разница между текущим и предыдущим интегралом меньше заданной точности, выходим
             }
@@ -44,9 +44,9 @@ class Program
 
         double a = 0; // Нижний предел интегрирования
         double b = 1; // Верхний предел интегрирования
-        double tolerance = 1e-6; // Заданная точность
+        double limit = 1e-6; // Заданная точность
 
-        double result = Integrate(func, a, b, tolerance);
+        double result = Integrate(func, a, b,limit);
         Console.WriteLine($"Интеграл функции от {a} до {b} = {result}");
     }
 }
